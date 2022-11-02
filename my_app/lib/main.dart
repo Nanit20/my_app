@@ -131,6 +131,24 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     final anho = TextEditingController();
     String y = "";
+    var _text = "";
+    String? get _errorText{
+      final text = anho.value.text;
+      if (text.isEmpty){
+        if (_country == "es") {
+          return 'No puede estar vacío';
+        } else {
+          return 'Il ne peut pas être vide';
+        }
+      }
+      if (int.parse(text) < 1900 || int.parse(text) > 2043){
+        if (_country == "es") {
+          return 'Debes establecer una fecha correcta';
+        } else {
+          return 'Vous devez définir une date correcte';
+        }
+      }
+    }
     @override
     Widget build(BuildContext context) {
       return Scaffold(
@@ -149,7 +167,8 @@ class _MyHomePageState extends State<MyHomePage> {
               keyboardType: TextInputType.number,
               maxLength: 4,
               textInputAction: TextInputAction.send,
-              decoration: InputDecoration(border: OutlineInputBorder(), labelText: textyear),
+              decoration: InputDecoration(border: OutlineInputBorder(), labelText: textyear, errorText: _errorText,),
+              onChanged: (text) => setState(() =>_text),
           ),
             Container(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 80),
